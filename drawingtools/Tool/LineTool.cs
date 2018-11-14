@@ -55,5 +55,10 @@ namespace drawingtools
                 this.canvas.addDrawingObject(this.line);
             }
         }
+
+        public void ctrlAndMouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }

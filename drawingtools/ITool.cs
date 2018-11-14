@@ -15,5 +15,6 @@ namespace drawingtools
         void mouseDown(object sender, MouseEventArgs e);
         void mouseMove(object sender, MouseEventArgs e);
         void mouseUp(object sender, MouseEventArgs e);
+        void ctrlAndMouseDown(object sender, MouseEventArgs e);
     }
 }

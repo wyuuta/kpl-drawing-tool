@@ -8,16 +8,16 @@ using System.Windows.Forms;
 
 namespace drawingtools
 {
-    class RectangleTool : ToolStripButton, ITool
+    class MoveTool : ToolStripButton, ITool
     {
-        private Rectangle rectangle;
         private ICanvas canvas;
+        private Point startPoint;
 
-        public RectangleTool()
+        public MoveTool()
         {
-            this.Name = "Rectangle Tool";
-            this.ToolTipText = "Rectangle Tool";
-            this.Text = "Rectangle";
+            this.Name = "Selection Tool";
+            this.ToolTipText = "Selection Tool";
+            this.Text = "Selection";
             this.CheckOnClick = true;
         }
 
@@ -26,7 +26,8 @@ namespace drawingtools
             this.canvas = canvas;
         }
 
-        public ICanvas getCanvas() {
+        public ICanvas getCanvas()
+        {
             return this.canvas;
         }
 
@@ -34,15 +35,17 @@ namespace drawingtools
         {
             if (e.Button == MouseButtons.Left)
             {
-                this.rectangle = new Rectangle(new Point(e.X, e.Y));
+                this.startPoint = new Point(e.X, e.Y);
+                this.canvas.searchSelectedObject(this.startPoint);
             }
         }
 
         public void mouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && startPoint != null)
             {
-                this.rectangle.setEndPoint(new Point(e.X, e.Y));
+                this.canvas.moveObjectBy(e.X - this.startPoint.X, e.Y - this.startPoint.Y);
+                this.startPoint = new Point(e.X, e.Y);
             }
         }
 
@@ -50,8 +53,15 @@ namespace drawingtools
         {
             if (e.Button == MouseButtons.Left)
             {
-                this.rectangle.setEndPoint(new Point(e.X, e.Y));
-                this.canvas.addDrawingObject(this.rectangle);
+                
+            }
+        }
+
+        public void ctrlAndMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                
             }
         }
     }

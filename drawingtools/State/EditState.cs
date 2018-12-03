@@ -11,7 +11,7 @@ namespace drawingtools.State
     {
         public EditState()
         {
-            Pen pen = new Pen(Color.Red, 2);
+            Pen pen = new Pen(Color.Blue, 2);
             this.setPen(pen);
         }
     }

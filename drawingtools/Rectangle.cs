@@ -24,12 +24,16 @@ namespace drawingtools
             this.setEndPoint(end);
         }
 
-        public override List<DrawingObject> getObjectList()
+        public override void moveObject(int x, int y)
         {
-            throw new NotImplementedException();
+            Point start = this.getStartPoint();
+            Point end = this.getEndPoint();
+
+            this.setStartPoint(new Point(start.X + x, start.Y + y));
+            this.setEndPoint(new Point(end.X + x, end.Y + y));
         }
 
-        public override void addDrawingObject(DrawingObject drawingObject)
+        public override List<DrawingObject> getObjectList()
         {
             throw new NotImplementedException();
         }
@@ -39,18 +43,14 @@ namespace drawingtools
             throw new NotImplementedException();
         }
 
-        public override void clearDrawingObject()
+        public override void addDrawingObject(DrawingObject drawingObject)
         {
             throw new NotImplementedException();
         }
 
-        public override void moveObject(int x, int y)
+        public override void clearDrawingObject()
         {
-            Point start = this.getStartPoint();
-            Point end = this.getEndPoint();
-
-            this.setStartPoint(new Point(start.X + x, start.Y + y));
-            this.setEndPoint(new Point(end.X + x, end.Y + y));
+            throw new NotImplementedException();
         }
 
         public override bool isIntersect(Point point)
@@ -79,6 +79,14 @@ namespace drawingtools
                 Math.Abs(this.getStartPoint().X - this.getEndPoint().X),
                 Math.Abs(this.getStartPoint().Y - this.getEndPoint().Y)
                 );
+        }
+
+        public override void update(int x, int y)
+        {
+            foreach (IObservable observable in this.getConnected())
+            {
+                observable.updatePoint(this, x, y);
+            }
         }
     }
 }

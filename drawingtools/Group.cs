@@ -83,5 +83,13 @@ namespace drawingtools
                 drawingObject.draw();
             }
         }
+
+        public override void update(int x, int y)
+        {
+            foreach (DrawingObject drawingObject in objectList)
+            {
+                drawingObject.update(x,y);
+            }
+        }
     }
 }

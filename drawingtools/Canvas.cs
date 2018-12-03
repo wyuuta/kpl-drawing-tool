@@ -53,7 +53,22 @@ namespace drawingtools
             return this.selectedObject;
         }
 
-        public void searchSelectedObject(Point point)
+        public DrawingObject searchObject(Point point)
+        {
+            if (drawingObjectList != null)
+            {
+                foreach (DrawingObject drawingObject in drawingObjectList) {
+                    if (drawingObject.isIntersect(point))
+                    {
+                        return drawingObject;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public void selectObject(Point point)
         {
             if (drawingObjectList != null) {
                 foreach (DrawingObject drawingObject in drawingObjectList)
@@ -85,6 +100,7 @@ namespace drawingtools
             if (selectedObject != null)
             {
                 this.selectedObject.moveObject(x, y);
+                this.selectedObject.update(x, y);
                 this.drawCanvas();
             }
         }

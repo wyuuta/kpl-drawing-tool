@@ -8,8 +8,11 @@ using System.Threading.Tasks;
 
 namespace drawingtools
 {
-    class Line : DrawingObject
+    class Line : DrawingObject,IObservable
     {
+        private DrawingObject leftConnected;
+        private DrawingObject rightConnected;
+
         public Line() {
             this.setPen(new Pen(Color.Black, 2));
             this.setState(new StaticState());
@@ -23,17 +26,37 @@ namespace drawingtools
             this.setEndPoint(end);
         }
 
+        public void setLeftConnected(DrawingObject leftConnected)
+        {
+            this.leftConnected = leftConnected;
+        }
+
+        public DrawingObject getLeftConnected()
+        {
+            return this.leftConnected;
+        }
+
+        public void setRightConnected(DrawingObject rightConnected)
+        {
+            this.rightConnected = rightConnected;
+        }
+
+        public DrawingObject getRightConnected()
+        {
+            return this.rightConnected;
+        }
+
         public override List<DrawingObject> getObjectList()
         {
             throw new NotImplementedException();
         }
 
-        public override void addDrawingObject(DrawingObject drawingObject)
+        public override void removeDrawingObject()
         {
             throw new NotImplementedException();
         }
 
-        public override void removeDrawingObject()
+        public override void addDrawingObject(DrawingObject drawingObject)
         {
             throw new NotImplementedException();
         }
@@ -70,6 +93,34 @@ namespace drawingtools
                 this.getStartPoint(),
                 this.getEndPoint()
                 );
+        }
+
+        public override void update(int x, int y)
+        {
+            if (this.leftConnected != null)
+            {
+                this.leftConnected.moveObject(x, y);
+            }
+            if (this.rightConnected != null)
+            {
+                this.rightConnected.moveObject(x, y);
+            }
+        }
+
+        public void updatePoint(DrawingObject drawingObject, int x, int y)
+        {
+            if(this.getLeftConnected() == drawingObject)
+            {
+                Point start = this.getStartPoint();
+
+                this.setStartPoint(new Point(start.X + x, start.Y + y));
+            }
+            if(this.getRightConnected() == drawingObject)
+            {
+                Point end = this.getEndPoint();
+
+                this.setEndPoint(new Point(end.X + x, end.Y + y));
+            }
         }
     }
 }

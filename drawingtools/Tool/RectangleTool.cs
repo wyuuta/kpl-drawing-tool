@@ -1,4 +1,5 @@
-﻿using System;
+﻿using drawingtools.State;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -34,7 +35,10 @@ namespace drawingtools
         {
             if (e.Button == MouseButtons.Left)
             {
-                this.rectangle = new Rectangle(new Point(e.X, e.Y));
+                this.rectangle = new Rectangle(new Point(e.X, e.Y), new Point(e.X, e.Y));
+                this.rectangle.setState(new PreviewState());
+                this.canvas.addDrawingObject(this.rectangle);
+
             }
         }
 
@@ -43,6 +47,7 @@ namespace drawingtools
             if (e.Button == MouseButtons.Left)
             {
                 this.rectangle.setEndPoint(new Point(e.X, e.Y));
+                this.canvas.drawCanvas();
             }
         }
 
@@ -51,7 +56,8 @@ namespace drawingtools
             if (e.Button == MouseButtons.Left)
             {
                 this.rectangle.setEndPoint(new Point(e.X, e.Y));
-                this.canvas.addDrawingObject(this.rectangle);
+                this.rectangle.setState(new StaticState());
+                this.canvas.drawCanvas();
             }
         }
 

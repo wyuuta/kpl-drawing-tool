@@ -67,6 +67,8 @@
     <Compile Include="DrawingState.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="ICanvas.cs" />
+    <Compile Include="IObservable.cs" />
+    <Compile Include="IObserver.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="IToolbox.cs" />
     <Compile Include="State\EditState.cs" />

@@ -11,7 +11,7 @@ namespace drawingtools.State
     {
         public PreviewState()
         {
-            Pen pen = new Pen(Color.Yellow, 2);
+            Pen pen = new Pen(Color.Red, 2);   
             this.setPen(pen);
         }
     }

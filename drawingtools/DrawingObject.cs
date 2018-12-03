@@ -7,13 +7,19 @@ using System.Drawing;
 
 namespace drawingtools
 {
-    public abstract class DrawingObject
+    public abstract class DrawingObject : IObserver
     {
         private Point start;
         private Point end;
         private Pen pen;
         private Graphics graphics;
+        private List<IObservable> connected;
         protected DrawingState state;
+
+        public DrawingObject()
+        {
+            this.connected = new List<IObservable>();
+        }
 
         public virtual void setState(DrawingState state)
         {
@@ -63,13 +69,25 @@ namespace drawingtools
             return this.end;
         }
 
+        public void addConnected(IObservable connected)
+        {
+            this.connected.Add(connected);
+        }
+
+        public List<IObservable> getConnected()
+        {
+            return this.connected;
+        }
+
         public abstract List<DrawingObject> getObjectList();
-        public abstract void addDrawingObject(DrawingObject drawingObject);
         public abstract void removeDrawingObject();
+        public abstract void addDrawingObject(DrawingObject drawingObject);
         public abstract void clearDrawingObject();
 
         public abstract bool isIntersect(Point point);
         public abstract void moveObject(int x, int y);
         public abstract void draw();
+
+        public abstract void update(int x, int y);
     }
 }

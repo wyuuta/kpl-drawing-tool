@@ -16,7 +16,8 @@ namespace drawingtools
 
         void moveObjectBy(int x, int y);
 
-        void searchSelectedObject(Point point);
+        DrawingObject searchObject(Point point);
+        void selectObject(Point point);
         void drawCanvas();
         void addDrawingObject(DrawingObject drawingObject);
     }

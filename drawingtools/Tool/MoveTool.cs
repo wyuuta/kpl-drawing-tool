@@ -36,7 +36,7 @@ namespace drawingtools
             if (e.Button == MouseButtons.Left)
             {
                 this.startPoint = new Point(e.X, e.Y);
-                this.canvas.searchSelectedObject(this.startPoint);
+                this.canvas.selectObject(this.startPoint);
             }
         }
 

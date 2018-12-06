@@ -55,12 +55,48 @@ namespace drawingtools
             this.objectList.Clear();
         }
 
+        public override void rotateObject(int angle)
+        {
+            foreach (DrawingObject drawingObject in objectList)
+            {
+                drawingObject.rotateObject(angle);
+            }
+        }
+
+        public override void moveCentroid(int x, int y)
+        {
+            foreach (DrawingObject drawingObject in objectList)
+            {
+                drawingObject.moveCentroid(x, y);
+            }
+        }
+
+        public override void updatePoints()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void updateCentroid()
+        {
+
+        }
+
         public override void moveObject(int x, int y)
         {
             foreach (DrawingObject drawingObject in objectList)
             {
                 drawingObject.moveObject(x, y);
             }
+        }
+
+        public override bool isControlPoint(Point point)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool isCenterPoint(Point point)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool isIntersect(Point point)

@@ -12,6 +12,7 @@ namespace drawingtools
     {
         private ICanvas canvas;
         private Point startPoint;
+        private int flag;
 
         public MoveTool()
         {
@@ -19,6 +20,7 @@ namespace drawingtools
             this.ToolTipText = "Selection Tool";
             this.Text = "Selection";
             this.CheckOnClick = true;
+            this.flag = 0;
         }
 
         public void setCanvas(ICanvas canvas)
@@ -36,7 +38,7 @@ namespace drawingtools
             if (e.Button == MouseButtons.Left)
             {
                 this.startPoint = new Point(e.X, e.Y);
-                this.canvas.selectObject(this.startPoint);
+                this.flag = this.canvas.selectObject(this.startPoint);
             }
         }
 
@@ -44,7 +46,19 @@ namespace drawingtools
         {
             if (e.Button == MouseButtons.Left && startPoint != null)
             {
-                this.canvas.moveObjectBy(e.X - this.startPoint.X, e.Y - this.startPoint.Y);
+                if (this.flag == 1)
+                {
+                    this.canvas.moveObjectBy(e.X - this.startPoint.X, e.Y - this.startPoint.Y);
+                }
+                if (this.flag == 2)
+                {
+                        if (e.X - this.startPoint.X > 0 || e.Y - this.startPoint.Y > 0) this.canvas.rotateObjectBy(1);
+                        else if (e.X - this.startPoint.X < 0 || e.Y - this.startPoint.Y < 0) this.canvas.rotateObjectBy(-1);
+                }
+                if (this.flag == 3)
+                {
+                    this.canvas.moveCentroidBy(e.X - this.startPoint.X, e.Y - this.startPoint.Y);
+                }
                 this.startPoint = new Point(e.X, e.Y);
             }
         }

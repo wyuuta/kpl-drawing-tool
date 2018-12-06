@@ -68,13 +68,13 @@ namespace drawingtools
             return null;
         }
 
-        public void selectObject(Point point)
+        public int selectObject(Point point)
         {
             if (drawingObjectList != null) {
                 foreach (DrawingObject drawingObject in drawingObjectList)
                 {
                     if (drawingObject.isIntersect(point))
-                    {  
+                    {
                         if (drawingObject.getState() is StaticState)
                         {
                             if (!isCtrlPressed)
@@ -83,16 +83,29 @@ namespace drawingtools
                             }
                             drawingObject.setState(new EditState());
                             this.selectedObject.addDrawingObject(drawingObject);
+                            this.drawCanvas();
+
+                            return 1;
                         }
-                        this.drawCanvas();
-                        return;
+                        if (drawingObject.getState() is EditState)
+                        {
+                            if (drawingObject.isControlPoint(point))
+                            {
+                                return 2;
+                            }
+                            if (drawingObject.isCenterPoint(point))
+                            {
+                                return 3;
+                            }
+                            return 1;
+                        }
                     }
                 }
             }
 
             this.unselectObject();
             this.drawCanvas();
-            return;
+            return 0;
         }
 
         public void moveObjectBy(int x, int y)
@@ -101,6 +114,24 @@ namespace drawingtools
             {
                 this.selectedObject.moveObject(x, y);
                 this.selectedObject.update(x, y);
+                this.drawCanvas();
+            }
+        }
+
+        public void moveCentroidBy(int x, int y)
+        {
+            if (selectedObject != null)
+            {
+                this.selectedObject.moveCentroid(x, y);
+                this.drawCanvas();
+            }
+        }
+
+        public void rotateObjectBy(int angle)
+        {
+            if (selectedObject != null)
+            {
+                this.selectedObject.rotateObject(angle);
                 this.drawCanvas();
             }
         }

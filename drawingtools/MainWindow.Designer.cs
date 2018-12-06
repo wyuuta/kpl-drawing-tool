@@ -46,12 +46,13 @@ namespace drawingtools
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(801, 279);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(801, 433);
             this.toolStripContainer1.Location = new System.Drawing.Point(1, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(801, 304);
+            this.toolStripContainer1.Size = new System.Drawing.Size(801, 458);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
+            this.toolStripContainer1.Click += new System.EventHandler(this.toolStripContainer1_Click);
             // 
             // MainWindow
             // 

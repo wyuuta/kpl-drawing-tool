@@ -15,9 +15,10 @@ namespace drawingtools
         DrawingObject getSelectedObject();
 
         void moveObjectBy(int x, int y);
-
+        void moveCentroidBy(int x, int y);
+        void rotateObjectBy(int angle);
         DrawingObject searchObject(Point point);
-        void selectObject(Point point);
+        int selectObject(Point point);
         void drawCanvas();
         void addDrawingObject(DrawingObject drawingObject);
     }

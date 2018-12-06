@@ -41,5 +41,9 @@ namespace drawingtools
             tool.setCanvas(this.canvas);
         }
 
+        private void toolStripContainer1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

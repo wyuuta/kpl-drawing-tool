@@ -81,8 +81,9 @@ namespace drawingtools
                             {
                                 this.unselectObject();
                             }
-                            drawingObject.setState(new EditState());
+                            drawingObject.select();
                             this.selectedObject.addDrawingObject(drawingObject);
+                            this.selectedObject.updateCentroid();
                             this.drawCanvas();
 
                             return 1;
@@ -108,34 +109,6 @@ namespace drawingtools
             return 0;
         }
 
-        public void moveObjectBy(int x, int y)
-        {
-            if (selectedObject != null)
-            {
-                this.selectedObject.moveObject(x, y);
-                this.selectedObject.update(x, y);
-                this.drawCanvas();
-            }
-        }
-
-        public void moveCentroidBy(int x, int y)
-        {
-            if (selectedObject != null)
-            {
-                this.selectedObject.moveCentroid(x, y);
-                this.drawCanvas();
-            }
-        }
-
-        public void rotateObjectBy(int angle)
-        {
-            if (selectedObject != null)
-            {
-                this.selectedObject.rotateObject(angle);
-                this.drawCanvas();
-            }
-        }
-
         public void addDrawingObject(DrawingObject drawingObject) {
             this.drawingObjectList.Add(drawingObject);
             this.drawCanvas();
@@ -143,7 +116,7 @@ namespace drawingtools
 
         private void unselectObject()
         {
-            this.selectedObject.setState(new StaticState());
+            this.selectedObject.deselect();
             this.selectedObject.clearDrawingObject();
         }
 
@@ -153,7 +126,7 @@ namespace drawingtools
             {
                 drawingObjectList.Remove(drawingObject);
             }
-            this.selectedObject.setState(new StaticState());
+            this.selectedObject.deselect();
             this.addDrawingObject(this.selectedObject);
             selectedObject = new Group();
         }
@@ -176,7 +149,7 @@ namespace drawingtools
             foreach (DrawingObject drawingObject in drawingObjectList)
             {
                 drawingObject.setGraphics(e.Graphics);
-                drawingObject.draw();
+                drawingObject.getState().draw(drawingObject);
             }
         }
 

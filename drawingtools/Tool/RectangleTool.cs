@@ -37,9 +37,7 @@ namespace drawingtools
             {
                 this.rectangle = new Rectangle(new Point(e.X, e.Y), new Point(e.X, e.Y));
                 this.rectangle.updatePoints();
-                this.rectangle.setState(new PreviewState());
                 this.canvas.addDrawingObject(this.rectangle);
-
             }
         }
 
@@ -58,7 +56,7 @@ namespace drawingtools
             if (e.Button == MouseButtons.Left)
             {
                 this.rectangle.setEndPoint(new Point(e.X, e.Y));
-                this.rectangle.setState(new StaticState());
+                this.rectangle.deselect();
                 this.rectangle.updatePoints();
                 this.rectangle.updateCentroid();
                 this.canvas.drawCanvas();

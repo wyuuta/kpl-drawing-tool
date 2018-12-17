@@ -15,7 +15,7 @@ namespace drawingtools
 
         public Line() {
             this.setPen(new Pen(Color.Black, 2));
-            this.setState(new StaticState());
+            this.setState(PreviewState.getInstance());
         }
 
         public Line(Point start) : this() {
@@ -66,7 +66,7 @@ namespace drawingtools
             throw new NotImplementedException();
         }
 
-        private PointF rotatePoint(PointF point, int angle)
+        private PointF rotatePoint(PointF point, double angle)
         {
             double cos = Math.Cos(angle * Math.PI / 180);
             double sin = Math.Sin(angle * Math.PI / 180);
@@ -79,7 +79,7 @@ namespace drawingtools
             };
         }
 
-        public override void rotateObject(int angle)
+        public override void rotateObject(double angle)
         {
             Point start = this.getStartPoint();
             Point end = this.getEndPoint();
@@ -194,39 +194,39 @@ namespace drawingtools
             return false;
         }
 
-        private void drawControlPoint()
+        private void drawControlPoint(Pen pen)
         {
             PointF[] points = this.getPoints();
             this.getGraphics().DrawEllipse(
-                new Pen(Color.Gray, 1),
+                pen,
                 this.getCentroid().X - 3,
                 this.getCentroid().Y - 3,
                 6,
                 6);
             this.getGraphics().DrawRectangle(
-                new Pen(Color.Gray, 1),
+                pen,
                 points[0].X - 3,
                 points[0].Y - 3,
                 6,
                 6);
             this.getGraphics().DrawRectangle(
-                new Pen(Color.Gray, 1),
+                pen,
                 points[1].X - 3,
                 points[1].Y - 3,
                 6,
                 6);
         }
 
-        public override void draw() {
+        public override void draw(Pen pen) {
             this.getGraphics().DrawLine(
-                this.getState().getPen(),
+                pen,
                 this.getStartPoint(),
                 this.getEndPoint()
                 );
 
             if (this.getState() is EditState)
             {
-                drawControlPoint();
+                drawControlPoint(pen);
             }
         }
 

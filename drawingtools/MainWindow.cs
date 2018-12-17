@@ -28,8 +28,8 @@ namespace drawingtools
 
             this.toolbox = new Toolbox();
             this.toolStripContainer1.TopToolStripPanel.Controls.Add((Control)this.toolbox);
-            this.toolbox.addTool(new MoveTool())
-;            this.toolbox.addSeparator();
+            this.toolbox.addTool(new MoveTool());
+            this.toolbox.addSeparator();
             this.toolbox.addTool(new LineTool());
             this.toolbox.addSeparator();
             this.toolbox.addTool(new RectangleTool());

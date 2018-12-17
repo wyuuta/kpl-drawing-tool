@@ -20,5 +20,20 @@ namespace drawingtools
         {
             return this.pen;
         }
+
+        public void draw(DrawingObject drawingObject)
+        {
+            drawingObject.draw(this.pen);
+        }
+
+        public virtual void select(DrawingObject drawingObject)
+        {
+
+        }
+
+        public virtual void deselect(DrawingObject drawingObject)
+        {
+
+        }
     }
 }

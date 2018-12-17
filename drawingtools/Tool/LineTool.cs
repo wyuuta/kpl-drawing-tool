@@ -37,7 +37,6 @@ namespace drawingtools
             if (e.Button == MouseButtons.Left)
             {
                 this.line = new Line(new Point(e.X, e.Y), new Point(e.X, e.Y));
-                this.line.setState(new PreviewState());
                 this.line.updatePoints();
                 this.canvas.addDrawingObject(this.line);
 
@@ -65,9 +64,9 @@ namespace drawingtools
             if (e.Button == MouseButtons.Left)
             {
                 this.line.setEndPoint(new Point(e.X, e.Y));
-                this.line.setState(new StaticState());
                 this.line.updatePoints();
                 this.line.updateCentroid();
+                this.line.deselect();
                 this.canvas.drawCanvas();
 
                 DrawingObject connectedObject = this.canvas.searchObject(new Point(e.X, e.Y));

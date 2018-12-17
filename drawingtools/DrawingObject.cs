@@ -28,7 +28,7 @@ namespace drawingtools
             this.state = state;
         }
 
-        public DrawingState getState()
+        public virtual DrawingState getState()
         {
             return this.state;
         }
@@ -37,66 +37,66 @@ namespace drawingtools
             this.graphics = graphics;
         }
 
-        public Graphics getGraphics() {
+        public virtual Graphics getGraphics() {
             return this.graphics;
         }
 
-        public void setPen(Pen pen)
+        public virtual void setPen(Pen pen)
         {
             this.pen = pen;
         }
 
-        public Pen getPen()
+        public virtual Pen getPen()
         {
             return this.pen;
         }
 
-        public void setStartPoint(Point start)
+        public virtual void setStartPoint(Point start)
         {
             this.start = start;
         }
 
-        public Point getStartPoint()
+        public virtual Point getStartPoint()
         {
             return this.start;
         }
 
-        public void setEndPoint(Point end)
+        public virtual void setEndPoint(Point end)
         {
             this.end = end;
         }
 
-        public Point getEndPoint()
+        public virtual Point getEndPoint()
         {
             return this.end;
         }
 
-        public void setCentroid(Point centroid)
+        public virtual void setCentroid(Point centroid)
         {
             this.centroid = centroid;
         }
 
-        public Point getCentroid()
+        public virtual Point getCentroid()
         {
             return this.centroid;
         }
 
-        public void setPoints(PointF[] points)
+        public virtual void setPoints(PointF[] points)
         {
             this.points = points;
         }
 
-        public PointF[] getPoints()
+        public virtual PointF[] getPoints()
         {
             return this.points;
         }
 
-        public void addConnected(IObservable connected)
+        public virtual void addConnected(IObservable connected)
         {
             this.connected.Add(connected);
         }
 
-        public List<IObservable> getConnected()
+        public virtual List<IObservable> getConnected()
         {
             return this.connected;
         }
@@ -109,13 +109,23 @@ namespace drawingtools
         public abstract bool isControlPoint(Point point);
         public abstract bool isCenterPoint(Point point);
         public abstract bool isIntersect(Point point);
-        public abstract void rotateObject(int angle);
+        public abstract void rotateObject(double angle);
         public abstract void moveObject(int x, int y);
         public abstract void moveCentroid(int x, int y);
-        public abstract void draw();
+        public abstract void draw(Pen pen);
 
         public abstract void update(int x, int y);
         public abstract void updatePoints();
         public abstract void updateCentroid();
+
+        public virtual void select()
+        {
+            this.state.select(this);
+        }
+
+        public virtual void deselect()
+        {
+            this.state.deselect(this);
+        }
     }
 }

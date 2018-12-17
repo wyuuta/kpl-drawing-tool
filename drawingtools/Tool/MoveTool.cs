@@ -13,6 +13,7 @@ namespace drawingtools
         private ICanvas canvas;
         private Point startPoint;
         private int flag;
+        private DrawingObject selectedObject;
 
         public MoveTool()
         {
@@ -39,6 +40,7 @@ namespace drawingtools
             {
                 this.startPoint = new Point(e.X, e.Y);
                 this.flag = this.canvas.selectObject(this.startPoint);
+                if (this.flag != 0) this.selectedObject = this.canvas.getSelectedObject();
             }
         }
 
@@ -48,16 +50,29 @@ namespace drawingtools
             {
                 if (this.flag == 1)
                 {
-                    this.canvas.moveObjectBy(e.X - this.startPoint.X, e.Y - this.startPoint.Y);
+                    int x = e.X - this.startPoint.X;
+                    int y = e.Y - this.startPoint.Y;
+                    //this.canvas.moveObjectBy(e.X - this.startPoint.X, e.Y - this.startPoint.Y);
+                    this.selectedObject.moveObject(x, y);
+                    this.selectedObject.update(x, y);
+                    this.canvas.drawCanvas();
                 }
                 if (this.flag == 2)
                 {
-                        if (e.X - this.startPoint.X > 0 || e.Y - this.startPoint.Y > 0) this.canvas.rotateObjectBy(1);
-                        else if (e.X - this.startPoint.X < 0 || e.Y - this.startPoint.Y < 0) this.canvas.rotateObjectBy(-1);
+                    //this.canvas.rotateObjectBy(this.startPoint, new Point(e.X, e.Y));
+                    Point centroid = selectedObject.getCentroid();
+                    //double angle = Math.Atan2(first.Y - centroid.Y, first.X - centroid.X) - Math.Atan2(second.Y - centroid.Y, second.X - centroid.X);
+                    if (e.X - this.startPoint.X + e.Y - this.startPoint.Y > 0) this.selectedObject.rotateObject(1);
+                    else if (e.X - this.startPoint.X + e.Y - this.startPoint.Y < 0) this.selectedObject.rotateObject(-1);
+                    this.canvas.drawCanvas();
                 }
                 if (this.flag == 3)
                 {
-                    this.canvas.moveCentroidBy(e.X - this.startPoint.X, e.Y - this.startPoint.Y);
+                    int x = e.X - this.startPoint.X;
+                    int y = e.Y - this.startPoint.Y;
+                    //this.canvas.moveCentroidBy(e.X - this.startPoint.X, e.Y - this.startPoint.Y);
+                    this.selectedObject.moveCentroid(x, y);
+                    this.canvas.drawCanvas();
                 }
                 this.startPoint = new Point(e.X, e.Y);
             }

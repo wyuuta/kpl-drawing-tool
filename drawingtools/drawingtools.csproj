@@ -65,7 +65,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DrawingState.cs" />
-    <Compile Include="Group.cs" />
+    <Compile Include="Shape\Group.cs" />
     <Compile Include="ICanvas.cs" />
     <Compile Include="IObservable.cs" />
     <Compile Include="IObserver.cs" />
@@ -80,8 +80,8 @@
     <Compile Include="Tool\MoveTool.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Rectangle.cs" />
-    <Compile Include="Line.cs" />
+    <Compile Include="Shape\Rectangle.cs" />
+    <Compile Include="Shape\Line.cs" />
     <Compile Include="DrawingObject.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>

@@ -83,7 +83,6 @@ namespace drawingtools
                             }
                             drawingObject.select();
                             this.selectedObject.addDrawingObject(drawingObject);
-                            this.selectedObject.updateCentroid();
                             this.drawCanvas();
 
                             return 1;
@@ -117,6 +116,10 @@ namespace drawingtools
         private void unselectObject()
         {
             this.selectedObject.deselect();
+            foreach(DrawingObject drawingObject in selectedObject.getObjectList())
+            {
+                drawingObject.updateCentroid();
+            }
             this.selectedObject.clearDrawingObject();
         }
 

@@ -39,6 +39,7 @@ namespace drawingtools
         public override void addDrawingObject (DrawingObject drawingObject)
         {
             this.objectList.Add(drawingObject);
+            this.updateCentroid();
         }
 
         public override void removeDrawingObject()
@@ -66,13 +67,16 @@ namespace drawingtools
 
             foreach (DrawingObject drawingObject in objectList)
             {
-                drawingObject.setCentroid(this.getCentroid());
+                drawingObject.moveCentroid(x, y);
             }
         }
 
         public override void updatePoints()
         {
-            throw new NotImplementedException();
+            foreach(DrawingObject drawingObject in objectList)
+            {
+
+            }
         }
 
         public override void updateCentroid()
@@ -84,16 +88,31 @@ namespace drawingtools
 
             foreach(DrawingObject drawingObject in objectList)
             {
-                PointF[] points = drawingObject.getPoints();
+                if (drawingObject is Group)
+                {
+                    Point start = drawingObject.getStartPoint();
+                    Point end = drawingObject.getEndPoint();
 
-                maxX = Math.Max(maxX, points.Max(element => element.X));
-                maxY = Math.Max(maxY, points.Max(element => element.Y));
-                minX = Math.Min(minX, points.Min(element => element.X));
-                minY = Math.Min(minY, points.Min(element => element.Y));
+                    maxX = Math.Max(maxX, start.X > end.X ? start.X : end.X);
+                    maxY = Math.Max(maxY, start.Y > end.Y ? start.Y : end.Y);
+                    minX = Math.Min(minX, start.X < end.X ? start.X : end.X);
+                    minY = Math.Min(minX, start.Y < end.Y ? start.Y : end.Y);
+                }
+                else
+                {
+                    PointF[] points = drawingObject.getPoints();
+
+                    maxX = Math.Max(maxX, points.Max(element => element.X));
+                    maxY = Math.Max(maxY, points.Max(element => element.Y));
+                    minX = Math.Min(minX, points.Min(element => element.X));
+                    minY = Math.Min(minY, points.Min(element => element.Y));
+                }
             }
             int x = (int)(minX + (maxX - minX) / 2);
             int y = (int)(minY + (maxY - minY) / 2);
 
+            this.setStartPoint(new Point((int)minX, (int)minY));
+            this.setEndPoint(new Point((int)maxX, (int)maxY));
             this.setCentroid(new Point(x, y));
 
             foreach(DrawingObject drawingObject in objectList)
@@ -104,6 +123,14 @@ namespace drawingtools
 
         public override void moveObject(int x, int y)
         {
+            Point start = this.getStartPoint();
+            Point end = this.getEndPoint();
+            Point centroid = this.getCentroid();
+
+            this.setStartPoint(new Point(start.X + x, start.Y + y));
+            this.setEndPoint(new Point(end.X + x, end.Y + y));
+            this.setCentroid(new Point(centroid.X + x, centroid.Y + y));
+
             foreach (DrawingObject drawingObject in objectList)
             {
                 drawingObject.moveObject(x, y);
@@ -112,6 +139,14 @@ namespace drawingtools
 
         public override bool isControlPoint(Point point)
         {
+            foreach(DrawingObject drawingObject in objectList)
+            {
+                if (drawingObject.isControlPoint(point))
+                {
+                    return true;
+                }
+                
+            }
             return false;
         }
 
@@ -132,12 +167,17 @@ namespace drawingtools
 
         public override bool isIntersect(Point point)
         {
-            foreach (DrawingObject drawingObject in objectList)
+            int horizontalLen = Math.Abs(this.getStartPoint().X - this.getEndPoint().X);
+            int verticalLen = Math.Abs(this.getStartPoint().Y - this.getEndPoint().Y);
+
+            if (
+                point.X >= this.getStartPoint().X &&
+                point.X <= (this.getStartPoint().X + horizontalLen) &&
+                point.Y >= this.getStartPoint().Y &&
+                point.Y <= (this.getStartPoint().Y + verticalLen)
+                )
             {
-                if (drawingObject.isIntersect(point))
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;

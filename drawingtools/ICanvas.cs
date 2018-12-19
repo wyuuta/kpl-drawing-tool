@@ -18,5 +18,7 @@ namespace drawingtools
         int selectObject(Point point);
         void drawCanvas();
         void addDrawingObject(DrawingObject drawingObject);
+        void addUndoStack(IMemento memento);
+        void clearRedoStack();
     }
 }

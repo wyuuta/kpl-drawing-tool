@@ -75,6 +75,14 @@ namespace drawingtools
                     this.line.setRightConnected(connectedObject);
                     connectedObject.addConnected(line);
                 }
+
+                List<DrawingObject> current = new List<DrawingObject>();
+                List<DrawingObject> previous = new List<DrawingObject>();
+                current.Add(this.line);
+                previous.Add(null);
+
+                IMemento memento = new Memento(current, previous);
+                this.canvas.addUndoStack(memento);
             }
         }
 

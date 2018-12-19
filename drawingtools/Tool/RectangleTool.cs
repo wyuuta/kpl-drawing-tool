@@ -60,6 +60,14 @@ namespace drawingtools
                 this.rectangle.updatePoints();
                 this.rectangle.updateCentroid();
                 this.canvas.drawCanvas();
+
+                List<DrawingObject> current = new List<DrawingObject>();
+                List<DrawingObject> previous = new List<DrawingObject>();
+                current.Add(this.rectangle);
+                previous.Add(null);
+
+                IMemento memento = new Memento(current, previous);
+                this.canvas.addUndoStack(memento);
             }
         }
 

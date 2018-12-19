@@ -65,12 +65,15 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DrawingState.cs" />
+    <Compile Include="IMemento.cs" />
+    <Compile Include="Memento.cs" />
     <Compile Include="Shape\Group.cs" />
     <Compile Include="ICanvas.cs" />
     <Compile Include="IObservable.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="IToolbox.cs" />
+    <Compile Include="State\RotateState.cs" />
     <Compile Include="State\EditState.cs" />
     <Compile Include="State\PreviewState.cs" />
     <Compile Include="State\StaticState.cs" />

@@ -8,7 +8,7 @@ using drawingtools.State;
 
 namespace drawingtools
 {
-    class Group : DrawingObject
+    public class Group : DrawingObject
     {
         private List<DrawingObject> objectList;
 
@@ -31,23 +31,30 @@ namespace drawingtools
             }
         }
 
-        public override List<DrawingObject> getObjectList()
+        public void setObjectList(List<DrawingObject> objectList)
+        {
+            this.objectList = objectList;
+        }
+
+        public List<DrawingObject> getObjectList()
         {
             return this.objectList;
         }
 
-        public override void addDrawingObject (DrawingObject drawingObject)
+        public void addDrawingObject (DrawingObject drawingObject)
         {
+            this.getState().deselect(this);
+            this.getState().select(this);
             this.objectList.Add(drawingObject);
             this.updateCentroid();
         }
 
-        public override void removeDrawingObject()
+        public void removeDrawingObject()
         {
             throw new NotImplementedException();
         }
 
-        public override void clearDrawingObject()
+        public void clearDrawingObject()
         {
             this.objectList.Clear();
         }

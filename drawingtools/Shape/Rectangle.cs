@@ -12,7 +12,6 @@ namespace drawingtools
     class Rectangle : DrawingObject
     {
         public Rectangle() {
-            this.setPen(new Pen(Color.Black, 2));
             this.setState(PreviewState.getInstance());
         }
 
@@ -114,26 +113,6 @@ namespace drawingtools
 
                 this.setCentroid(new Point(x, y));
             }
-        }
-
-        public override List<DrawingObject> getObjectList()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void removeDrawingObject()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void addDrawingObject(DrawingObject drawingObject)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void clearDrawingObject()
-        {
-            throw new NotImplementedException();
         }
 
         public override bool isControlPoint(Point point)
@@ -257,7 +236,7 @@ namespace drawingtools
                 pen,
                 this.getPoints());
 
-            if(this.getState() is EditState)
+            if(this.getState() is RotateState)
             {
                 this.drawControlPoint(pen);
             }

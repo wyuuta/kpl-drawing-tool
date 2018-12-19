@@ -14,7 +14,6 @@ namespace drawingtools
         private DrawingObject rightConnected;
 
         public Line() {
-            this.setPen(new Pen(Color.Black, 2));
             this.setState(PreviewState.getInstance());
         }
 
@@ -44,26 +43,6 @@ namespace drawingtools
         public DrawingObject getRightConnected()
         {
             return this.rightConnected;
-        }
-
-        public override List<DrawingObject> getObjectList()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void removeDrawingObject()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void addDrawingObject(DrawingObject drawingObject)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void clearDrawingObject()
-        {
-            throw new NotImplementedException();
         }
 
         private PointF rotatePoint(PointF point, double angle)
@@ -224,7 +203,7 @@ namespace drawingtools
                 this.getEndPoint()
                 );
 
-            if (this.getState() is EditState)
+            if (this.getState() is RotateState)
             {
                 drawControlPoint(pen);
             }

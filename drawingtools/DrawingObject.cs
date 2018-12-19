@@ -12,7 +12,6 @@ namespace drawingtools
         private Point start;
         private Point end;
         private Point centroid;
-        private Pen pen;
         private Graphics graphics;
         private List<IObservable> connected;
         private PointF[] points;
@@ -39,16 +38,6 @@ namespace drawingtools
 
         public virtual Graphics getGraphics() {
             return this.graphics;
-        }
-
-        public virtual void setPen(Pen pen)
-        {
-            this.pen = pen;
-        }
-
-        public virtual Pen getPen()
-        {
-            return this.pen;
         }
 
         public virtual void setStartPoint(Point start)
@@ -91,6 +80,11 @@ namespace drawingtools
             return this.points;
         }
 
+        public virtual void setConnected(List<IObservable> connected)
+        {
+            this.connected = connected;
+        }
+
         public virtual void addConnected(IObservable connected)
         {
             this.connected.Add(connected);
@@ -100,11 +94,6 @@ namespace drawingtools
         {
             return this.connected;
         }
-
-        public abstract List<DrawingObject> getObjectList();
-        public abstract void removeDrawingObject();
-        public abstract void addDrawingObject(DrawingObject drawingObject);
-        public abstract void clearDrawingObject();
 
         public abstract bool isControlPoint(Point point);
         public abstract bool isCenterPoint(Point point);

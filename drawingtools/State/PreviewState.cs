@@ -26,6 +26,11 @@ namespace drawingtools.State
             return instance;
         }
 
+        public override void select(DrawingObject drawingObject)
+        {
+            drawingObject.setState(StaticState.getInstance());
+        }
+
         public override void deselect(DrawingObject drawingObject)
         {
             drawingObject.setState(StaticState.getInstance());

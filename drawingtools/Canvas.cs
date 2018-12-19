@@ -13,13 +13,17 @@ namespace drawingtools
     {
         private ITool currentTool;
         private List<DrawingObject> drawingObjectList;
-        private DrawingObject selectedObject;
+        private Stack<IMemento> undoStack;
+        private Stack<IMemento> redoStack;
+        private Group selectedObject;
         private bool isCtrlPressed;
 
         public Canvas() {
             this.drawingObjectList = new List<DrawingObject>();
             this.selectedObject = new Group();
             this.isCtrlPressed = false;
+            this.undoStack = new Stack<IMemento>();
+            this.redoStack = new Stack<IMemento>();
 
             this.DoubleBuffered = true;
             this.BackColor = System.Drawing.Color.White;
@@ -87,7 +91,11 @@ namespace drawingtools
 
                             return 1;
                         }
-                        if (drawingObject.getState() is EditState)
+                        if(drawingObject.getState() is EditState)
+                        {
+                            return 1;
+                        }
+                        if (drawingObject.getState() is RotateState)
                         {
                             if (drawingObject.isControlPoint(point))
                             {
@@ -113,6 +121,16 @@ namespace drawingtools
             this.drawCanvas();
         }
 
+        public void addUndoStack(IMemento memento)
+        {
+            this.undoStack.Push(memento);
+        }
+
+        public void clearRedoStack()
+        {
+            this.redoStack.Clear();
+        }
+
         private void unselectObject()
         {
             this.selectedObject.deselect();
@@ -134,7 +152,7 @@ namespace drawingtools
             selectedObject = new Group();
         }
 
-        private void ungroupSelectedObject(DrawingObject select)
+        private void ungroupSelectedObject(Group select)
         {
             if (!(select is Group))
             {
@@ -189,15 +207,69 @@ namespace drawingtools
             {
                 if (this.isCtrlPressed)
                 {
-                    if (selectedObject.getObjectList().Count() == 1)
+                    if (selectedObject.getObjectList().Count() == 1 && selectedObject.getObjectList()[0] is Group)
                     {
-                        this.ungroupSelectedObject(selectedObject.getObjectList()[0]);
+                        this.ungroupSelectedObject((Group)selectedObject.getObjectList()[0]);
                     }
                     else
                     {
                         this.groupSelectedObject();
                     }
                 }
+            }
+            if (e.KeyCode == Keys.Z)
+            {
+                if (this.isCtrlPressed)
+                {
+                    if (undoStack.Count != 0 )
+                    {
+                        IMemento memento = undoStack.Pop();
+                        foreach (DrawingObject drawingObject in memento.getCurrent())
+                        {
+                            drawingObjectList.Remove(drawingObject);
+                        }
+                        foreach (DrawingObject drawingObject in memento.getPrevious())
+                        {
+                            if (drawingObject != null)  drawingObjectList.Add(drawingObject);
+                        }
+
+                        redoStack.Push(new Memento(memento.getPrevious(), memento.getCurrent()));
+                        this.drawCanvas();
+                    }
+                }
+            }
+            if (e.KeyCode == Keys.Y)
+            {
+                if (this.isCtrlPressed)
+                {
+                    if (redoStack.Count != 0)
+                    {
+                        IMemento memento = redoStack.Pop();
+                        foreach(DrawingObject drawingObject in memento.getCurrent())
+                        {
+                            if (drawingObject != null) drawingObjectList.Remove(drawingObject);
+                        }
+                        foreach(DrawingObject drawingObject in memento.getPrevious())
+                        {
+                            drawingObjectList.Add(drawingObject);
+                        }
+
+                        undoStack.Push(new Memento(memento.getPrevious(), memento.getCurrent()));
+                        this.drawCanvas();
+                    }
+                }
+            }
+            if (e.KeyCode == Keys.R)
+            {
+                if (this.isCtrlPressed)
+                {
+                    if (selectedObject.getState() is EditState || selectedObject.getState() is RotateState)
+                    {
+                        selectedObject.select();
+                        this.drawCanvas();
+                    }
+                }
+               
             }
         }
 
